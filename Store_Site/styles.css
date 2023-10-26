@@ -1,0 +1,11 @@
+.categories {
+    display: flex;
+    justify-content: space-around;
+    padding: 1em 0;
+    list-style-type: none;
+    margin: 0;
+}
+
+.categories li {
+    margin: 0 1em;
+}
