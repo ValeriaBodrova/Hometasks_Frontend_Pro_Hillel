@@ -3,9 +3,9 @@ const products = [
     { name: 'Товар 2', category: 'flowers', price: 150},
     { name: 'Товар 3', category: 'flowers', price: 200},
 
-    { name: 'Товар 1', category: 'elesctronics', price: 100},
-    { name: 'Товар 2', category: 'elesctronics', price: 150},
-    { name: 'Товар 3', category: 'elesctronics', price: 200},
+    { name: 'Товар 1', category: 'electronics', price: 100},
+    { name: 'Товар 2', category: 'electronics', price: 150},
+    { name: 'Товар 3', category: 'electronics', price: 200},
 
     { name: 'Товар 1', category: 'books', price: 100},
     { name: 'Товар 2', category: 'books', price: 150},
