@@ -21,7 +21,7 @@ const products = [
     const middleBlock = document.getElementById('middle-block');
   
     // Очищаємо вміст середнього блоку
-    //middleBlock.innerHTML = '';
+    middleBlock.innerHTML = '';
   
     // Додаємо товари до середнього блоку
     filteredProducts.forEach(product => {
@@ -29,6 +29,7 @@ const products = [
       productElement.textContent = `${product.name} - Ціна: ${product.price} грн`;
       middleBlock.appendChild(productElement);
     });
+    console.log(middleBlock);
   }
   
 
