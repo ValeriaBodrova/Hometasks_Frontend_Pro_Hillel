@@ -52,7 +52,7 @@ const products = [
           const category = this.getAttribute('href'); // Отримуємо URL категорії з атрибуту href
   
           // Встановлюємо новий URL та викликаємо pushState
-          history.pushState({ page: 'category', category }, '', category);
+          history.pushState({ page: 'category', category }, '', `/${category}`);
   
           // Загружаємо вміст категорії і відображаємо його в контейнері
           displayProductsByCategory(category);
