@@ -21,7 +21,7 @@ const products = [
     const middleBlock = document.getElementById('middle-block');
   
     // Очищаємо вміст середнього блоку
-    middleBlock.innerHTML = '';
+    //middleBlock.innerHTML = '';
   
     // Додаємо товари до середнього блоку
     filteredProducts.forEach(product => {
@@ -38,7 +38,7 @@ const products = [
   links.forEach(link => {
       link.addEventListener('click', function (event) {
           event.preventDefault();
-          const category = this.getAttribute('href').substring(1); // Отримуємо URL категорії з атрибуту href
+          const category = this.getAttribute('href').substring(1);
   
           // Встановлюємо новий URL та викликаємо pushState
           history.pushState({ page: 'category', category }, '', `/${category}`);
