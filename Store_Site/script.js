@@ -1,15 +1,15 @@
 const products = [
-    { name: 'Товар 1', category: 'Категорія 1', price: 100},
-    { name: 'Товар 2', category: 'Категорія 1', price: 150},
-    { name: 'Товар 3', category: 'Категорія 1', price: 200},
+    { name: 'Товар 1', category: 'flowers', price: 100},
+    { name: 'Товар 2', category: 'flowers', price: 150},
+    { name: 'Товар 3', category: 'flowers', price: 200},
 
-    { name: 'Товар 1', category: 'Категорія 2', price: 100},
-    { name: 'Товар 2', category: 'Категорія 2', price: 150},
-    { name: 'Товар 3', category: 'Категорія 2', price: 200},
+    { name: 'Товар 1', category: 'elesctronics', price: 100},
+    { name: 'Товар 2', category: 'elesctronics', price: 150},
+    { name: 'Товар 3', category: 'elesctronics', price: 200},
 
-    { name: 'Товар 1', category: 'Категорія 3', price: 100},
-    { name: 'Товар 2', category: 'Категорія 3', price: 150},
-    { name: 'Товар 3', category: 'Категорія 3', price: 200},
+    { name: 'Товар 1', category: 'books', price: 100},
+    { name: 'Товар 2', category: 'books', price: 150},
+    { name: 'Товар 3', category: 'books', price: 200},
   ];
   
   function displayProductsByCategory(category) {
