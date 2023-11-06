@@ -31,8 +31,9 @@ const products = [
     });
   }
   
+  const categories = document.getElementById('categories');
   // При кліку на елемент списку категорій
-  document.addEventListener('click', function(event) {
+  categories.addEventListener('click', function(event) {
     if (event.target.tagName === 'LI') {
       // Отримуємо обрану категорію з дата-атрибута
       const category = event.target.getAttribute('data-category');
@@ -47,7 +48,7 @@ const products = [
 window.addEventListener('popstate', (event) => {
     if (event.state && event.state.page === 'category') {
         const category = event.state.category;
-        
+
         displayProductsByCategory(category);
     }
 });
