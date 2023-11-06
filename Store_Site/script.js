@@ -31,7 +31,7 @@ const products = [
     });
   }
   
-  const categories = document.getElementById('categories');
+  const categories = document.getElementById('categories-list');
   // При кліку на елемент списку категорій
   categories.addEventListener('click', function(event) {
     if (event.target.tagName === 'LI') {
