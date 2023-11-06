@@ -31,7 +31,7 @@ const products = [
     });
   }
   
-  const categories = document.getElementById('categories-list');
+/*   const categories = document.getElementById('categories-list');
   // При кліку на елемент списку категорій
   categories.addEventListener('click', function(event) {
     if (event.target.tagName === 'LI') {
@@ -42,6 +42,21 @@ const products = [
       displayProductsByCategory(category);
       history.pushState({ page: 'category', category }, '', `/${category}`);
     }
+  }); */
+
+  const links = document.querySelectorAll('.list-group-item a');
+
+  links.forEach(link => {
+      link.addEventListener('click', function (event) {
+          event.preventDefault();
+          const category = this.getAttribute('href'); // Отримуємо URL категорії з атрибуту href
+  
+          // Встановлюємо новий URL та викликаємо pushState
+          history.pushState({ page: 'category', category }, '', category);
+  
+          // Загружаємо вміст категорії і відображаємо його в контейнері
+          displayProductsByCategory(category);
+      });
   });
 
 // Обробник події popstate для оновлення вмісту при натисканні кнопок назад/вперед у браузері
