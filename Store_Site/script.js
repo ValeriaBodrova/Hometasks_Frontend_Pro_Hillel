@@ -15,7 +15,8 @@ const products = [
   function displayProductsByCategory(category) {
     // Фільтруємо товари за обраною категорією
     const filteredProducts = products.filter(product => product.category === category);
-  
+    console.log(filteredProducts);
+
     // Отримуємо доступ до середнього блоку, де буде відображено
     // список товарів для обраної категорії
     const middleBlock = document.getElementById('middle-block');
