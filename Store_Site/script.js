@@ -1,37 +1,63 @@
 const products = [
-    { name: 'Товар 1', category: 'flowers', price: 200},
-    { name: 'Товар 2', category: 'flowers', price: 350},
-    { name: 'Товар 3', category: 'flowers', price: 250},
+    { name: 'Товар 1', category: 'flowers', price: 200, id:'1'},
+    { name: 'Товар 2', category: 'flowers', price: 350, id:'2'},
+    { name: 'Товар 3', category: 'flowers', price: 250, id:'3'},
 
-    { name: 'Товар 1', category: 'electronics', price: 1000},
-    { name: 'Товар 2', category: 'electronics', price: 1500},
-    { name: 'Товар 3', category: 'electronics', price: 2000},
+    { name: 'Товар 1', category: 'electronics', price: 1000, id:'4'},
+    { name: 'Товар 2', category: 'electronics', price: 1500, id:'5'},
+    { name: 'Товар 3', category: 'electronics', price: 2000, id:'6'},
 
-    { name: 'Товар 1', category: 'books', price: 100},
-    { name: 'Товар 2', category: 'books', price: 150},
-    { name: 'Товар 3', category: 'books', price: 200},
+    { name: 'Товар 1', category: 'books', price: 100, id:'7'},
+    { name: 'Товар 2', category: 'books', price: 150, id:'8'},
+    { name: 'Товар 3', category: 'books', price: 200, id:'9'},
   ];
   
   function displayProductsByCategory(category) {
-    // Фільтруємо товари за обраною категорією
+  
     const filteredProducts = products.filter(product => product.category === category);
     console.log(filteredProducts);
 
-    // Отримуємо доступ до середнього блоку, де буде відображено
-    // список товарів для обраної категорії
     const middleBlock = document.getElementById('middle-block');
   
-    // Очищаємо вміст середнього блоку
     middleBlock.innerHTML = '';
   
-    // Додаємо товари до середнього блоку
     filteredProducts.forEach(product => {
       const productElement = document.createElement('div');
+      const productLink = document.createElement('a');
+      productLink.href = `/product/${product.id}`;
       productElement.textContent = `${product.name} - Ціна: ${product.price} грн`;
       middleBlock.appendChild(productElement);
     });
     console.log(middleBlock);
   }
+
+  const productLinks = document.querySelectorAll('.list-group-item a');
+
+  productLinks.forEach(link => {
+    link.addEventListener('click', function (event) {
+      event.preventDefault();
+      const productId = this.getAttribute('data-product-id');
+  
+      const selectedProduct = products.find(product => product.id === parseInt(productId, 10));
+      displayProductInfo(selectedProduct);
+    });
+  });
+
+
+function displayProductInfo(product) {
+  const productInfoBlock = document.getElementById('selected-product-info');
+  productInfoBlock.innerHTML = ''; 
+
+  if (product) {
+    const productElement = document.createElement('div');
+    const productLink = document.createElement('a');
+    productLink.href = `/product/${product.id}`;
+    productLink.textContent = `${product.name} - Ціна: ${product.price} грн`;
+    productElement.appendChild(productLink);
+    productInfoBlock.appendChild(productElement);
+  } 
+}
+
   
 
 
@@ -50,11 +76,31 @@ const products = [
       });
   });
 
-// Обробник події popstate для оновлення вмісту при натисканні кнопок назад/вперед у браузері
-window.addEventListener('popstate', (event) => {
-    if (event.state && event.state.page === 'category') {
-        const category = event.state.category;
+// Отримання поточного URL
+const currentURL = window.location.pathname;
 
-        displayProductsByCategory(category);
-    }
+// Функція для обробки URL і відображення інформації про товар
+function handleProductURL(url) {
+  // Розділення URL, щоб отримати id товару
+  const parts = url.split('/');
+  const productId = parts[2]; // Тут має бути індекс, на якому знаходиться id у вашому URL
+
+  // Знайдемо товар з відповідним id
+  const selectedProduct = products.find(product => product.id === productId);
+
+  displayProductInfo(selectedProduct);
+}
+
+// Виклик функції для обробки поточного URL
+handleProductURL(currentURL);
+
+// Обробник події popstate для оновлення інформації про товар при натисканні кнопок назад/вперед у браузері
+window.addEventListener('popstate', (event) => {
+  if (event.state && event.state.page === 'product') {
+    // Отримаємо URL товару зі стану
+    const productURL = event.state.productURL;
+
+    handleProductURL(productURL);
+  }
 });
+
