@@ -25,8 +25,10 @@ const products = [
       const productElement = document.createElement('div');
       const productLink = document.createElement('a');
       productLink.href = `/product/${product.id}`;
-      productElement.textContent = `${productLink}${product.name} - Ціна: ${product.price} грн`;
+      productElement.textContent = `${product.name} - Ціна: ${product.price} грн`;
       middleBlock.appendChild(productElement);
+      productElement.appendChild(productLink);
+    
     });
     console.log(middleBlock);
   }
