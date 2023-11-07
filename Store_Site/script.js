@@ -27,8 +27,8 @@ const products = [
       productLink.href = `/product/${product.id}`;
       productElement.textContent = `${product.name} - Ціна: ${product.price} грн`;
       middleBlock.appendChild(productElement);
-      productElement.appendChild(productLink);
-    
+      
+     productLink.appendChild(productElement);
     });
     console.log(middleBlock);
   }
