@@ -52,7 +52,7 @@ const products = [
     link.addEventListener('click', function (event) {
       event.preventDefault();  
       const productId = this.getAttribute('href').split('/')[2];
-      const selectedProduct = products.find(product => product.id === parseInt(productId, 10));
+     // const selectedProduct = products.find(product => product.id === parseInt(productId, 10));
 
       history.pushState({ page: 'product', productURL: `product/${productId}` }, '', `product/${productId}`);
 
