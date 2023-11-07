@@ -65,11 +65,11 @@ function displayProductInfo(product) {
   const productInfoBlock = document.getElementById('selected-product-info');
   productInfoBlock.innerHTML = ''; 
 
-  if (product) {
+ 
     const productInfo = document.createElement('div');
     productInfo.textContent = `${product.name} - Ціна: ${product.price} грн`;
     productInfoBlock.appendChild(productInfo);
-  } 
+
 }
 
   
