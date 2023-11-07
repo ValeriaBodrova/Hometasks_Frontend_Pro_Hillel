@@ -48,7 +48,7 @@ const products = [
   }
 
 
-  productLink.forEach(link => {
+  productElement.forEach(link => {
     link.addEventListener('click', function (event) {
       event.preventDefault();  
       const productId = this.getAttribute('href').split('/')[2];
@@ -76,10 +76,6 @@ function displayProductInfo(product) {
   
 
   
-
-
- 
-
 // Отримання поточного URL
 const currentURL = window.location.pathname;
 
