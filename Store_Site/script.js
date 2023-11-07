@@ -47,11 +47,11 @@ const products = [
     console.log(middleBlock);
   }
 
-  const productId = product.id;
 
   productLink.forEach(link => {
     link.addEventListener('click', function (event) {
       event.preventDefault();  
+      const productId = this.getAttribute('href').split('/')[2];
       const selectedProduct = products.find(product => product.id === parseInt(productId, 10));
 
       history.pushState({ page: 'product', productURL: `product/${productId}` }, '', `product/${productId}`);
@@ -62,15 +62,18 @@ const products = [
 
 
 function displayProductInfo(product) {
-  const productInfoBlock = document.getElementById('selected-product-info');
-  productInfoBlock.innerHTML = ''; 
-
- 
-    const productInfo = document.createElement('div');
-    productInfo.textContent = `${product.name} - Ціна: ${product.price} грн`;
-    productInfoBlock.appendChild(productInfo);
-
-}
+    const productInfoBlock = document.getElementById('selected-product-info');
+    productInfoBlock.innerHTML = '';
+  
+    const productName = document.createElement('div');
+    productName.textContent = `Назва: ${product.name}`;
+    productInfoBlock.appendChild(productName);
+  
+    const productPrice = document.createElement('div');
+    productPrice.textContent = `Ціна: ${product.price} грн`;
+    productInfoBlock.appendChild(productPrice);
+  }
+  
 
   
 
