@@ -12,6 +12,21 @@ const products = [
     { name: 'Товар 3', category: 'books', price: 200, id:'9'},
   ];
   
+  const links = document.querySelectorAll('.list-group-item a');
+
+  links.forEach(link => {
+      link.addEventListener('click', function (event) {
+          event.preventDefault();
+          const category = this.getAttribute('href').substring(1);
+  
+          // Встановлюємо новий URL та викликаємо pushState
+          history.pushState({ page: 'category', category }, '', `/${category}`);
+  
+          // Загружаємо вміст категорії і відображаємо його в контейнері
+          displayProductsByCategory(category);
+      });
+  });
+
   function displayProductsByCategory(category) {
   
     const filteredProducts = products.filter(product => product.category === category);
@@ -32,14 +47,15 @@ const products = [
     console.log(middleBlock);
   }
 
-  const productLinks = document.querySelectorAll('.list-group-item a');
+  const productId = product.id;
 
-  productLinks.forEach(link => {
+  productLink.forEach(link => {
     link.addEventListener('click', function (event) {
-      event.preventDefault();
-      const productId = this.getAttribute('data-product-id');
-  
+      event.preventDefault();  
       const selectedProduct = products.find(product => product.id === parseInt(productId, 10));
+
+      history.pushState({ page: 'product', productURL: `product/${productId}` }, '', `product/${productId}`);
+
       displayProductInfo(selectedProduct);
     });
   });
@@ -50,32 +66,16 @@ function displayProductInfo(product) {
   productInfoBlock.innerHTML = ''; 
 
   if (product) {
-    const productElement = document.createElement('div');
-    const productLink = document.createElement('a');
-    productLink.href = `/product/${product.id}`;
-    productLink.textContent = `${product.name} - Ціна: ${product.price} грн`;
-    productElement.appendChild(productLink);
-    productInfoBlock.appendChild(productElement);
+    const productInfo = document.createElement('div');
+    productInfo.textContent = `${product.name} - Ціна: ${product.price} грн`;
+    productInfoBlock.appendChild(productInfo);
   } 
 }
 
   
 
 
-  const links = document.querySelectorAll('.list-group-item a');
-
-  links.forEach(link => {
-      link.addEventListener('click', function (event) {
-          event.preventDefault();
-          const category = this.getAttribute('href').substring(1);
-  
-          // Встановлюємо новий URL та викликаємо pushState
-          history.pushState({ page: 'category', category }, '', `/${category}`);
-  
-          // Загружаємо вміст категорії і відображаємо його в контейнері
-          displayProductsByCategory(category);
-      });
-  });
+ 
 
 // Отримання поточного URL
 const currentURL = window.location.pathname;
