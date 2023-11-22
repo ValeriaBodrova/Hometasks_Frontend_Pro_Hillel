@@ -79,8 +79,12 @@ function displayProductInfo(product) {
     // Відобразити повідомлення про купівлю
     alert(`Товар "${product.name}" куплений!`);
 
-    // Повернення до списку категорій
-    displayProductsByCategory(category);
+    // Очистити середній та правий блоки
+    const middleBlock = document.getElementById('middle-block');
+    middleBlock.innerHTML = '';
+
+    const productInfoBlock = document.getElementById('selected-product-info');
+    productInfoBlock.innerHTML = '';
   });
 
   productInfoBlock.appendChild(buyButton);
