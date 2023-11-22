@@ -65,6 +65,25 @@ function displayProductInfo(product) {
   productPrice.textContent = `Ціна: ${product.price} грн`;
   productInfoBlock.appendChild(productPrice);
   console.log(productInfoBlock);
+
+  // Додати кнопку "Купити"
+  const buyButton = document.createElement('button');
+  buyButton.textContent = 'Купити';
+  buyButton.addEventListener('click', function () {
+    // Змінити URL та викликати pushState
+    const category = product.category;
+    const productId = product.id;
+    const newURL = `/${category}/${productId}`;
+    history.pushState({ page: 'product', productURL: newURL }, '', newURL);
+
+    // Відобразити повідомлення про купівлю
+    alert(`Товар "${product.name}" куплений!`);
+
+    // Повернення до списку категорій
+    displayProductsByCategory(category);
+  });
+
+  productInfoBlock.appendChild(buyButton);
 }
 
 // Отримання поточного URL
