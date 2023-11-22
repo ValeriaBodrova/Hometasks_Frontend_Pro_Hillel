@@ -71,7 +71,10 @@ function displayProductInfo(product) {
   
     const productPrice = document.createElement('div');
     productPrice.textContent = `Ціна: ${product.price} грн`;
+    productInfoBlock.appendChild(productName);
+    
     productInfoBlock.appendChild(productPrice);
+    console.log(productInfoBlock);
   }
   
 
