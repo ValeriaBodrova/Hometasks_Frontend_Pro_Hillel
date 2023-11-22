@@ -78,10 +78,8 @@ function displayProductInfo(product) {
 
     alert(`Товар "${product.name}" куплений!`);
 
-    history.pushState({ page: 'category', category }, '', `/${category}`);
-
-    // Повернення до списку категорій
-    displayProductsByCategory(category);
+    const backURL = `/${category}`;
+  history.pushState({ page: 'category', category: category }, '', backURL);
  
   });
 
