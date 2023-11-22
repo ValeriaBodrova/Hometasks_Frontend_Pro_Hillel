@@ -76,45 +76,16 @@ function displayProductInfo(product) {
     const newURL = `/${category}/${productId}`;
     history.pushState({ page: 'product', productURL: newURL }, '', newURL);
 
-  // Відобразити повідомлення про купівлю
-  showMessage('Товар куплений!', () => {
-    displayProductsByCategory();
-  });
+    alert(`Товар "${product.name}" куплений!`);
 
-    
+    history.pushState({ page: 'category', category }, '', `/${category}`);
+
+    // Повернення до списку категорій
+    displayProductsByCategory(category);
+ 
   });
 
   productInfoBlock.appendChild(buyButton);
-
-  // Функція для відображення повідомлення
-  function showMessage(message, onClose) {
-    // Створення DOM-елементів для модального вікна та повідомлення
-    const modalOverlay = document.createElement('div');
-    modalOverlay.className = 'modal-overlay';
-    
-    const modalContent = document.createElement('div');
-    modalContent.className = 'modal-content';
-  
-    const messageElement = document.createElement('p');
-    messageElement.textContent = message;
-  
-    const closeButton = document.createElement('button');
-    closeButton.textContent = 'Закрити';
-    closeButton.addEventListener('click', () => {
-      document.body.removeChild(modalOverlay);
-      onClose(); 
-    });
-  
-    
-    modalContent.appendChild(messageElement);
-    modalContent.appendChild(closeButton);
-    modalOverlay.appendChild(modalContent);
-  
-    document.body.appendChild(modalOverlay);
-  }
-  
-
-
 }
 
 // Отримання поточного URL
