@@ -79,8 +79,8 @@ function displayProductInfo(product) {
     alert(`Товар "${product.name}" куплений!`);
 
     const backURL = `/${category}`;
-  history.pushState({ page: 'category', category: category }, '', backURL);
- 
+  history.pushState({ page: 'category', category }, '', backURL);
+
   });
 
   productInfoBlock.appendChild(buyButton);
