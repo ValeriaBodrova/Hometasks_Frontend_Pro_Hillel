@@ -45,20 +45,23 @@ const products = [
      middleBlock.appendChild(productLink);
     });
     console.log(middleBlock);
+    
+    productElement.forEach(link => {
+      link.addEventListener('click', function (event) {
+        event.preventDefault();  
+        const productId = this.getAttribute('href').split('/')[2];
+        const selectedProduct = products.find(product => product.id === parseInt(productId, 10));
+  
+        history.pushState({ page: 'product', productURL: `product/${productId}` }, '', `product/${productId}`);
+  
+        displayProductInfo(selectedProduct);
+      });
+    });
+
   }
 
 
-  productElement.forEach(link => {
-    link.addEventListener('click', function (event) {
-      event.preventDefault();  
-      const productId = this.getAttribute('href').split('/')[2];
-      const selectedProduct = products.find(product => product.id === parseInt(productId, 10));
 
-      history.pushState({ page: 'product', productURL: `product/${productId}` }, '', `product/${productId}`);
-
-      displayProductInfo(selectedProduct);
-    });
-  });
 
 
 function displayProductInfo(product) {
