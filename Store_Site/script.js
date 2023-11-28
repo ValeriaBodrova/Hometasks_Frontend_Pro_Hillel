@@ -16,9 +16,9 @@ links.forEach(link => {
   link.addEventListener('click', function (event) {
     event.preventDefault();
     const category = this.getAttribute('href').substring(1);
-
+    console.log(category);
     // Встановлюємо новий URL та викликаємо pushState
-    history.pushState({ page: 'category', category }, '', `/${category}`);
+    history.pushState({ page: 'category' }, '', `/${category}`);
 
     // Загружаємо вміст категорії і відображаємо його в контейнері
     displayProductsByCategory(category);
@@ -30,7 +30,6 @@ function displayProductsByCategory(category) {
   console.log(filteredProducts);
 
   const middleBlock = document.getElementById('middle-block');
-
   middleBlock.innerHTML = '';
 
   filteredProducts.forEach(product => {
@@ -79,37 +78,25 @@ function displayProductInfo(product) {
     alert(`Товар "${product.name}" куплений!`);
 
     const backURL = `/${category}`;
-  history.pushState({ page: 'category', category }, '', backURL);
-
+  history.pushState({ page: 'category'}, '', backURL);
   });
 
   productInfoBlock.appendChild(buyButton);
+  connectionToBasket(selectedProduct);
 }
 
-// Отримання поточного URL
-const currentURL = window.location.pathname;
+function connectionToBasket(selectedProduct){
+  // Отримати поточний список доданих товарів з локального сховища
+const existingCart = JSON.parse(localStorage.getItem('cart')) || [];
 
-// Функція для обробки URL і відображення інформації про товар
-function handleProductURL(url) {
-  // Розділення URL, щоб отримати id товару
-  const parts = url.split('/');
-  const productId = parts[2]; // Тут має бути індекс, на якому знаходиться id у вашому URL
+// Додати новий товар до списку
+existingCart.push(selectedProduct);
 
-  // Знайдемо товар з відповідним id
-  const selectedProduct = products.find(product => product.id === productId);
-
-  displayProductInfo(selectedProduct);
+// Оновити локальне сховище
+localStorage.setItem('cart', JSON.stringify(existingCart));
+// Оновити кількість доданих товарів у відображенні в шапці
+document.getElementById('basket-count').textContent = existingCart.length;
 }
 
-// Виклик функції для обробки поточного URL
-handleProductURL(currentURL);
 
-// Обробник події popstate для оновлення інформації про товар при натисканні кнопок назад/вперед у браузері
-window.addEventListener('popstate', (event) => {
-  if (event.state && event.state.page === 'product') {
-    // Отримаємо URL товару зі стану
-    const productURL = event.state.productURL;
 
-    handleProductURL(productURL);
-  }
-});
