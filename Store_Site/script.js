@@ -10,49 +10,43 @@ const products = [
   { name: 'Товар 3', category: 'books', price: 200, id: '9' },
 ];
 
-const links = document.querySelectorAll('.list-group-item a');
-
-links.forEach(link => {
-  link.addEventListener('click', function (event) {
-    event.preventDefault();
-    const category = this.getAttribute('href').substring(1);
-    console.log(category);
-    // Встановлюємо новий URL та викликаємо pushState
-    history.pushState({ page: 'category' }, '', `/${category}`);
-
-    // Загружаємо вміст категорії і відображаємо його в контейнері
-    displayProductsByCategory(category);
+function displayCategories() {
+  const links = document.querySelectorAll('.list-group-item a');
+  links.forEach(link => {
+    link.addEventListener('click', function (event) {
+      event.preventDefault();
+      const category = this.getAttribute('href').substring(1);
+      console.log(category);
+      history.pushState({page: 'category' }, '', `${category}`);
+      displayProductsByCategory(category);
+    });
   });
-});
+}
+displayCategories();
 
 function displayProductsByCategory(category) {
   const filteredProducts = products.filter(product => product.category === category);
-  console.log(filteredProducts);
-
+console.log(filteredProducts);
   const middleBlock = document.getElementById('middle-block');
   middleBlock.innerHTML = '';
 
   filteredProducts.forEach(product => {
     const productElement = document.createElement('div');
     const productLink = document.createElement('a');
-    productLink.href = `/product/${product.id}`;
+    productLink.href = `/${product.category}/${product.id}`;
     productElement.textContent = `${product.name} - Ціна: ${product.price} грн`;
     productLink.appendChild(productElement);
     middleBlock.appendChild(productLink);
-
-    productLink.addEventListener('click', function (event) {
-      event.preventDefault();
-      const productId = this.getAttribute('href').split('/')[2];
-      const selectedProduct = products.find(product => product.id === productId);
-
-      history.pushState({ page: 'product', productURL: `product/${productId}` }, '', `product/${productId}`);
-
-      displayProductInfo(selectedProduct);
+    productLink.addEventListener('click', (event) => {
+    event.preventDefault();
+    history.pushState({ page: 'product' }, '', `${product.category}`);
+    displayProductInfo(product);
     });
   });
 }
 
 function displayProductInfo(product) {
+  
   const productInfoBlock = document.getElementById('selected-product-info');
   productInfoBlock.innerHTML = '';
 
@@ -63,40 +57,116 @@ function displayProductInfo(product) {
   const productPrice = document.createElement('div');
   productPrice.textContent = `Ціна: ${product.price} грн`;
   productInfoBlock.appendChild(productPrice);
-  console.log(productInfoBlock);
 
-  // Додати кнопку "Купити"
   const buyButton = document.createElement('button');
   buyButton.textContent = 'Купити';
-  buyButton.addEventListener('click', function () {
-    // Змінити URL та викликати pushState
-    const category = product.category;
-    const productId = product.id;
-    const newURL = `/${category}/${productId}`;
-    history.pushState({ page: 'product', productURL: newURL }, '', newURL);
+  buyButton.addEventListener('click', function (event) {
+    event.preventDefault();
+    const newURL = `/${product.category}/${product.id}`;
+    history.pushState({ page: 'product' }, '', newURL);
 
     alert(`Товар "${product.name}" куплений!`);
+    countItems();
 
-    const backURL = `/${category}`;
-  history.pushState({ page: 'category'}, '', backURL);
+    const backURL = `/${product.category}`;
+    history.replaceState({ page: 'category'}, '', backURL);
   });
 
   productInfoBlock.appendChild(buyButton);
-  connectionToBasket(selectedProduct);
+}
+const BASKET_KEY = 'productsInBasket'
+function countItems(itemId){
+  const basketItems = JSON.parse(localStorage.getItem('cart')) || [];
+  basketItems.push(itemId)
+  localStorage.setItem(BASKET_KEY, JSON.stringify(basketItems));
+  document.getElementById('basket-count').textContent = basketItems.length;
 }
 
-function connectionToBasket(selectedProduct){
-  // Отримати поточний список доданих товарів з локального сховища
-const existingCart = JSON.parse(localStorage.getItem('cart')) || [];
+const basketLink = document.getElementById('basket-link');
+basketLink.addEventListener('click', function (event) {
+  event.preventDefault();
+ history.pushState({page: 'basket'}, '', `/basket`);
+ displayBasket();
+});
 
-// Додати новий товар до списку
-existingCart.push(selectedProduct);
 
-// Оновити локальне сховище
-localStorage.setItem('cart', JSON.stringify(existingCart));
-// Оновити кількість доданих товарів у відображенні в шапці
-document.getElementById('basket-count').textContent = existingCart.length;
+function displayBasket() {
+  const basketItems = JSON.parse(localStorage.getItem('cart')) || [];
+  const productInfoBlock = document.getElementById('selected-product-info');
+  productInfoBlock.innerHTML = '';
+  const middleBlock = document.getElementById('middle-block');
+  middleBlock.innerHTML = '';
+
+  basketItems.forEach(item => {
+    const itemElement = document.createElement('div');
+    itemElement.textContent = `${item.name} - Ціна: ${item.price} грн`;
+    middleBlock.appendChild(itemElement);
+  });
 }
 
+/* const renderContent = () => {
+  // render content according to the current url
+  const match = window.location.pathname.match(/(\w+)\/?(\w*)/) || [, '', ''];
+  const [, slug, productId] = match;
+  if ((category === slug)) {
+    displayCategories(
+      displayProductsByCategory(slug)
+    );
+  }
+  if (productId) {
+    displayProductInfo(productId);
+  }
+  if (`/${slug}` === Route.basket) {
+    displayBasket();
+  }
+}; */
 
 
+/* const init = () => {
+  displayCategories();
+ renderContent();
+
+  document.addEventListener(
+    ONPUSH_STATE_EVENT_NAME,
+    (event) => {
+      console.log(event);
+      const url = event.detail.url;
+      const state = event.detail.state;
+      console.log(state);
+      switch (true) {
+        case state.hasOwnProperty('category'): {
+          displayProductsByCategory(products.filter(product => product.category === state.category));
+          break;
+        }
+        case url === Route.home: {
+          clearProductListContainer();
+          clearProductInfoContainer();
+          break;
+        }
+        case typeof event.detail.state === 'number': {
+          displayProductInfo(products.find(product => product.id === state.productId));
+          break;
+        }
+        case url === Route.basket: {
+          displayBasket();
+          break;
+        }
+        default:
+          break;
+      }
+    },
+    false
+  );
+};
+
+init(); */
+
+const clearProductInfoContainer = () => {
+  const productInfoBlock = document.getElementById('selected-product-info');
+  productInfoBlock.innerHTML = '';
+};
+
+const clearProductListContainer = () => {
+  const middleBlock = document.getElementById('middle-block');
+  middleBlock.innerHTML = '';
+};
