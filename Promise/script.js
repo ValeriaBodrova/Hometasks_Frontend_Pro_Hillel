@@ -1,19 +1,14 @@
 function fetchPostById(postId) {
-    return new Promise((resolve, reject) => {
       fetch(`https://jsonplaceholder.typicode.com/posts/${postId}`)
         .then(response => {
           if (!response.ok) {
             throw new Error('Post not found');
           }
           return response.json();
-        })
-        .then(post => resolve(post))
-        .catch(error => reject(error));
-    });
+        })  
   }
 
   function fetchCommentsByPostId(postId) {
-    return new Promise((resolve, reject) => {
       fetch(`https://jsonplaceholder.typicode.com/posts/${postId}/comments`)
         .then(response => {
           if (!response.ok) {
@@ -21,9 +16,6 @@ function fetchPostById(postId) {
           }
           return response.json();
         })
-        .then(comments => resolve(comments))
-        .catch(error => reject(error));
-    });
   }
 
   function searchPost() {
